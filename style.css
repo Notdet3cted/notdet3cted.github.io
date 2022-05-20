@@ -2,9 +2,11 @@
 
 :root{
     --putih: #ecf0f1;
-    --biru: #8BD3DD;
-    --oren: #faae2b;
-    --abang: #fe98a3;
+    --biru: #82ccdd;
+    --oren: #f6b93b;
+    --abang: #ea8685;
+    --teal: #079992;
+    
 }
 
 *{
@@ -18,7 +20,7 @@
 }
 
 *::selection{
-    background:var(--oren);
+    background:var(--abang);
     color:#333;
 }
 
@@ -36,12 +38,12 @@ html::-webkit-scrollbar-track{
 }
 
 html::-webkit-scrollbar-thumb{
-    background:var(--oren);
+    background:var(--abang);
 }
 
 body{
     /* background:#ecf0f1; */
-    background:#333;
+    background:#38ada9;
     overflow-x: hidden;
     padding-left: 35rem;
 }
@@ -70,7 +72,7 @@ section{
 }
 
 .btn:hover{
-    background:var(--oren);
+    background:var(--abang);
 }
 
 .heading{
@@ -83,7 +85,8 @@ section{
 }
 
 .heading span{
-    color:var(--oren);
+    color:var(--putih);
+    background-color: var(--abang);
 }
 
 header{
@@ -92,7 +95,7 @@ header{
     z-index: 1000;
     height:100%;
     width:35rem;
-    background:#1a1a1a;
+    background:var(--teal);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,22 +110,22 @@ header .user img{
     border-radius: 1rem;
     object-fit: cover;
     margin-bottom: 1rem;
-    border:0.4rem solid var(--oren);
+    border:0.4rem solid var(--abang);
 }
 
 header .user img:hover{
-    background: var(--oren);
+    background: var(--abang);
     border:0.4rem solid var(--biru);
 }
 
 header .user .name{
     font-size: 3.5rem;
-    color:#fff;
+    color: var(--putih);
 }
 
 header .user .post{
     font-size: 2rem;
-    color:var(--oren);
+    color:var(--putih);
 }
 
 header .navbar{
@@ -149,7 +152,7 @@ header .navbar ul li a{
 }
 
 header .navbar ul li a:hover{
-    background:var(--oren);
+    background:var(--abang);
 }
 
 #menu{
@@ -182,7 +185,13 @@ header .navbar ul li a:hover{
 }
 
 .home h1 span{
-    color:var(--oren);
+    color:var(--abang);
+    text-shadow:
+        3px 3px 0 #fff,
+      -1px -1px 0 #fff,  
+       1px -1px 0 #fff,
+       -1px 1px 0 #fff,
+        1px 1px 0 #fff;
 }
 
 .home p{
@@ -222,7 +231,7 @@ header .navbar ul li a:hover{
 }
 
 .kotak-port{
-    background: var(--oren);
+    background: var(--abang);
     display: flex;
     align-items: center;
     box-shadow: 1rem 1rem 0 var(--putih);
