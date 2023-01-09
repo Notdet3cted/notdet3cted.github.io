@@ -1234,7 +1234,13 @@
           <section class="mapbox" data-mapbox>
             <figure>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199666.5651251294!2d-121.58334177520186!3d38.56165006739519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809ac672b28397f9%3A0x921f6aaa74197fdb!2sSacramento%2C%20CA%2C%20USA!5e0!3m2!1sen!2sbd!4v1647608789441!5m2!1sen!2sbd"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139.495392218917!2d110.84256606487709!3d-6.803433680317919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70c4c4e858ed25%3A0xfc078df815a94e15!2sAlun-Alun%20Kudus%2C%20Kec.%20Kota%20Kudus%2C%20Kabupaten%20Kudus%2C%20Jawa%20Tengah!5e0!3m2!1sen!2sid!4v1673259156819!5m2!1sen!2sid"
+                width="600"
+                height="450"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
                 width="400"
                 height="300"
                 loading="lazy"
@@ -1244,20 +1250,17 @@
 
           <section class="contact-form">
             <h3 class="h3 form-title">Send Secret Message</h3>
-            <form onsubmit:"send()">
-              <textarea
-                name="message"
-                id="message"
-                class="form-input"
-                placeholder="Your Message"
-                required
-                data-form-input
-              ></textarea>
-              <button class="form-btn" type="submit" disabled data-form-btn>
-                <ion-icon name="paper-plane"></ion-icon>
-                <span>Send Message</span>
-              </button>
-            </form>
+            <textarea
+              name="message"
+              class="form-input"
+              placeholder="Your Message"
+              required
+            ></textarea>
+
+            <button class="form-btn" name="send" type="submit">
+              <ion-icon name="paper-plane"></ion-icon>
+              <span>Send Message</span>
+            </button>
           </section>
         </article>
       </div>
@@ -1280,44 +1283,32 @@
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
     <script>
-      function send(){
-        var message = document.querySelector('[name=message]').value
-        alert(message)
-      }
-      
-//       Swal.fire({
-//         title: 'Send Your Secret Message For Me',
-//         input: 'text',
-//         inputAttributes: {
-//           autocapitalize: 'off'
-//         },
-//         showCancelButton: false,
-//         confirmButtonText: 'Send',
-//         showLoaderOnConfirm: true,
-//         preConfirm: (secret) => {
-//           return fetch(`https://api.telegram.org/bot828733467:AAGa7_V9v7SLkwgH9XT-J1VGA2oswq_6q4I/sendMessage?chat_id=660331071&text=${secret}`)
-//             .then(response => {
-//               if (!response.ok) {
-//                 throw new Error(response.statusText)
-//               }
-//               return response.json()
-//             })
-//             .catch(error => {
-//               Swal.showValidationMessage(
-//                 `Request failed: ${error}`
-//               )
-//             })
-//         },
-//         allowOutsideClick: () => !Swal.isLoading()
-//       }).then((result) => {
-//         if (result.isConfirmed) {
-//           Swal.fire({
-//             title: `Your Secret sent`,
-//           })
-
-//         }
-//       })
-
-        </script>
+      document
+        .querySelector("[name=send]")
+        .addEventListener("click", function () {
+          var message = document.querySelector("[name=message]").value;
+          // console.log(message.length);
+          if (message.length >= 10) {
+            fetch(
+              `https://api.telegram.org/bot828733467:AAGa7_V9v7SLkwgH9XT-J1VGA2oswq_6q4I/sendMessage?chat_id=660331071&text=${message}`
+            )
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(response.statusText);
+                }
+                Swal.fire(
+                  "Terimkasih",
+                  "Pesan kamu akan segera saya baca",
+                  "success"
+                );
+              })
+              .catch((error) => {
+                Swal.showValidationMessage(`Request failed: ${error}`);
+              });
+          } else {
+            Swal.fire("Woy!", "minimal 10 karakter", "warning");
+          }
+        });
+    </script>
   </body>
 </html>
