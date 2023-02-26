@@ -1029,7 +1029,7 @@ main {
 .project-category { margin-left: 10px; }
 
 .project-title {
-  color: var(--white-2);
+  color: var(--bg-gradient-jet);
   font-size: var(--fs-5);
   font-weight: var(--fw-400);
   text-transform: capitalize;
