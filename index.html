@@ -1,1337 +1,744 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Naufal Portfolio</title>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naufal Rizqi Arrafi — Full-Stack & Systems Builder</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!--
-    - favicon
-  -->
-    <link
-      rel="shortcut icon"
-      href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWpb6HBIBP-Pzcx3R-KoiIj1HcJKPYL4JAZA&usqp=CAU"
-      type="image/x-icon"
-    />
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            foam: '#F7F4EF',
+                            cream: '#EBE5DA',
+                            card: '#FFFFFF',
+                            border: '#E2D9CC',
+                            espresso: '#2A211D',
+                            caramel: '#C86D39',
+                            rust: '#B25A2C',
+                            sage: '#4A6B53',
+                            // Dark Mode (Espresso Night)
+                            darkBg: '#161311',
+                            darkCard: '#231E1B',
+                            darkBorder: '#342C27',
+                            darkText: '#F0ECE1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!--
-    - custom css link
-  -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
-
-    <!--
-    - google font link
-  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
     <style>
-      @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
+        /* Custom Tactile & Grain Styles */
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
 
-      /* body {
-  background: #EEEEF4;
-  color:#999;
-  font-family:Roboto;
-} */
+        .bg-grain {
+            background-image: radial-gradient(rgba(42, 33, 29, 0.04) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
 
-      /* h1{
-  font-weight:100;
-  font-size:27pt;
-  color:#E43;
-} */
+        .dark .bg-grain {
+            background-image: radial-gradient(rgba(240, 236, 225, 0.04) 1px, transparent 0);
+        }
 
-      /* p{font-weight:300;} */
+        /* Tactile Card Shadow */
+        .tactile-card {
+            box-shadow: 4px 4px 0px 0px rgba(42, 33, 29, 0.9);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .tactile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 6px 6px 0px 0px rgba(200, 109, 57, 0.9);
+        }
 
-      .warning-content {
-        /* position:absolute; */
-        top: 25%;
-        width: 100%;
-        height: 300px;
-        text-align: center;
-        margin: 0;
-      }
+        .dark .tactile-card {
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.8);
+        }
+        .dark .tactile-card:hover {
+            box-shadow: 6px 6px 0px 0px rgba(200, 109, 57, 0.8);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F4EF;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #161311;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C86D39;
+            border-radius: 4px;
+        }
+
+        /* Pulse Animation for Live Dot */
+        @keyframes pulse-sage {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 107, 83, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(74, 107, 83, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 107, 83, 0); }
+        }
+        .pulse-dot {
+            animation: pulse-sage 2s infinite;
+        }
     </style>
-  </head>
+</head>
+<body class="bg-coffee-foam dark:bg-coffee-darkBg text-coffee-espresso dark:text-coffee-darkText min-h-screen bg-grain relative selection:bg-coffee-caramel selection:text-white">
 
-  <body>
-    <!--
-    - #MAIN
-  -->
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-coffee-espresso dark:bg-coffee-caramel text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3 border border-coffee-caramel/20 pointer-events-none">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-coffee-caramel dark:text-coffee-espresso"></i>
+        <span id="toast-message" class="text-sm font-medium">Notification message</span>
+    </div>
 
-    <main>
-      <!--
-      - #SIDEBAR
-    -->
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-coffee-foam/80 dark:bg-coffee-darkBg/80 border-b border-coffee-border dark:border-coffee-darkBorder">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-coffee-espresso dark:bg-coffee-caramel text-coffee-foam dark:text-coffee-espresso font-extrabold flex items-center justify-center text-lg shadow-md group-hover:scale-105 transition-transform">
+                    NRA
+                </div>
+                <div>
+                    <span class="font-bold text-base tracking-tight block leading-none">Naufal R. Arrafi</span>
+                    <span class="font-mono text-xs text-coffee-caramel dark:text-coffee-cream/70">fullstack_dev.sh</span>
+                </div>
+            </a>
 
-      <aside class="sidebar" data-sidebar>
-        <div class="sidebar-info">
-          <figure class="avatar-box">
-            <img
-              src="./assets/images/my-avatar.png"
-              alt="Naufal Arrafi"
-              width="80"
-            />
-          </figure>
+            <!-- Status Badge (Desktop) -->
+            <div class="hidden md:flex items-center space-x-2 bg-coffee-cream/60 dark:bg-coffee-darkCard border border-coffee-border dark:border-coffee-darkBorder px-3 py-1.5 rounded-full text-xs font-medium">
+                <span class="w-2.5 h-2.5 rounded-full bg-coffee-sage inline-block pulse-dot"></span>
+                <span>Open for Opportunities & Collaborations</span>
+            </div>
 
-          <div class="info-content">
-            <h1 class="name" title="Richard hanrick">Naufal Arrafi</h1>
+            <!-- Navigation Links & Theme Toggle -->
+            <div class="flex items-center space-x-4">
+                <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold">
+                    <a href="#hero" class="hover:text-coffee-caramel transition-colors">Overview</a>
+                    <a href="#certifications" class="hover:text-coffee-caramel transition-colors">Certifications</a>
+                    <a href="#projects" class="hover:text-coffee-caramel transition-colors">Projects</a>
+                    <a href="#skills" class="hover:text-coffee-caramel transition-colors">Skills</a>
+                    <a href="#contact" class="hover:text-coffee-caramel transition-colors">Contact</a>
+                </nav>
 
-            <p class="title">Programmer</p>
-          </div>
+                <!-- Dark Mode Toggle Button -->
+                <button id="theme-toggle" aria-label="Toggle Theme" class="p-2.5 rounded-xl border border-coffee-border dark:border-coffee-darkBorder bg-coffee-cream/50 dark:bg-coffee-darkCard hover:bg-coffee-caramel/20 transition-colors text-coffee-espresso dark:text-coffee-darkText">
+                    <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-lg text-amber-400"></i>
+                </button>
 
-          <button class="info_more-btn" data-sidebar-btn>
-            <span>Lihat Kontak</span>
-
-            <ion-icon name="chevron-down"></ion-icon>
-          </button>
+                <!-- Mobile Navigation Toggle -->
+                <button id="mobile-menu-btn" aria-label="Open Mobile Navigation" class="lg:hidden p-2.5 rounded-xl border border-coffee-border dark:border-coffee-darkBorder bg-coffee-cream/50 dark:bg-coffee-darkCard">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
         </div>
 
-        <div class="sidebar-info_more">
-          <div class="separator"></div>
-
-          <ul class="contacts-list">
-            <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="mail-outline"></ion-icon>
-              </div>
-            </li>
-
-            <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="phone-portrait-outline"></ion-icon>
-              </di
-            </li>
-
-<!--             <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="calendar-outline"></ion-icon>
-              </div>
-
-              <div class="contact-info">
-                <p class="contact-title">Birthday</p>
-
-                <time datetime="1982-06-23">25 Oktober 2000</time>
-              </div>
-            </li> -->
-
-            <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="location-outline"></ion-icon>
-              </div>
-
-              <div class="contact-info">
-                <p class="contact-title">Location</p>
-
-                <address>Kudus</address>
-              </div>
-            </li>
-          </ul>
-
-          <div class="separator"></div>
-
-          <ul class="social-list">
-            <li class="social-item">
-              <a
-                href="https://www.instagram.com/ini_nopal/"
-                class="social-link"
-              >
-                <ion-icon name="logo-instagram"></ion-icon>
-              </a>
-            </li>
-            <li class="social-item">
-              <a
-                href="https://id.linkedin.com/in/naufal-arrafi-078978192/"
-                class="social-link"
-              >
-                <ion-icon name="logo-linkedin"></ion-icon>
-              </a>
-            </li>
-            <li class="social-item">
-              <a href="https://github.com/Notdet3cted" class="social-link">
-                <ion-icon name="logo-github"></ion-icon>
-              </a>
-            </li>
-          </ul>
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden border-b border-coffee-border dark:border-coffee-darkBorder bg-coffee-cream/95 dark:bg-coffee-darkCard/95 px-6 py-4 space-y-3 font-semibold text-sm">
+            <a href="#hero" class="block py-2 hover:text-coffee-caramel">Overview</a>
+            <a href="#certifications" class="block py-2 hover:text-coffee-caramel">Certifications</a>
+            <a href="#projects" class="block py-2 hover:text-coffee-caramel">Projects</a>
+            <a href="#skills" class="block py-2 hover:text-coffee-caramel">Skills & Tools</a>
+            <a href="#contact" class="block py-2 hover:text-coffee-caramel">Contact Me</a>
         </div>
-        <br />
-        <p style="color: grey; text-align: center; font-size: x-small">
-          template by: @codewithsadee
-        </p>
-      </aside>
+    </header>
 
-      <!--
-      - #main-content
-    -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-20">
 
-      <div class="main-content">
-        <!--
-        - #NAVBAR
-      -->
+        <!-- HERO SECTION -->
+        <section id="hero" class="pt-6 sm:pt-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-coffee-caramel/10 border border-coffee-caramel/30 text-coffee-caramel px-3 py-1.5 rounded-lg text-xs font-mono font-semibold">
+                        <i class="fa-solid fa-terminal text-xs"></i>
+                        <span>Naufal Rizqi Arrafi — Kudus, Central Java, ID</span>
+                    </div>
 
-        <nav class="navbar">
-          <ul class="navbar-list">
-            <li class="navbar-item">
-              <button class="navbar-link active" data-nav-link>About</button>
-            </li>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+                        Crafting High-Volume Systems & <span class="text-coffee-caramel underline decoration-coffee-caramel/40 decoration-wavy">Clean Interfaces.</span>
+                    </h1>
 
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Resume</button>
-            </li>
-
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Portfolio</button>
-            </li>
-
-            <!-- <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Blog</button>
-            </li> -->
-
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Contact</button>
-            </li>
-          </ul>
-        </nav>
-
-        <!--
-        - #ABOUT
-      -->
-
-        <article class="about active" data-page="about">
-          <header>
-            <h2 class="h2 article-title">About me</h2>
-          </header>
-
-          <section class="about-text">
-            <p>Saya adalah seorang programmer</p>
-
-            <p></p>
-          </section>
-
-          <!--
-          - service
-        -->
-
-          <section class="service">
-            <h3 class="h3 service-title">Yang saya kerjakan</h3>
-
-            <ul class="service-list">
-              <li class="service-item">
-                <div class="service-icon-box">
-                  <img
-                    src="./assets/images/icon-design.svg
-                "
-                    alt="design icon"
-                    width="40"
-                  />
-                </div>
-
-                <div class="service-content-box">
-                  <h4 class="h4 service-item-title">Flutter Development</h4>
-
-                  <p class="service-item-text">
-                    The most modern and high-quality design made at a
-                    professional level.
-                  </p>
-                </div>
-              </li>
-
-              <li class="service-item">
-                <div class="service-icon-box">
-                  <img
-                    src="./assets/images/icon-dev.svg"
-                    alt="Web development icon"
-                    width="40"
-                  />
-                </div>
-
-                <div class="service-content-box">
-                  <h4 class="h4 service-item-title">Web development</h4>
-
-                  <p class="service-item-text">
-                    High-quality development of sites at the professional level.
-                  </p>
-                </div>
-              </li>
-
-              <li class="service-item">
-                <div class="service-icon-box">
-                  <img
-                    src="./assets/images/icon-app.svg"
-                    alt="mobile app icon"
-                    width="40"
-                  />
-                </div>
-
-                <div class="service-content-box">
-                  <h4 class="h4 service-item-title">Internet Of Things</h4>
-
-                  <p class="service-item-text">
-                    Professional development of applications for iOS and
-                    Android.
-                  </p>
-                </div>
-              </li>
-
-              <li class="service-item">
-                <div class="service-icon-box">
-                  <img
-                    src="./assets/images/icon-photo.svg"
-                    alt="camera icon"
-                    width="40"
-                  />
-                </div>
-
-                <div class="service-content-box">
-                  <h4 class="h4 service-item-title">Design</h4>
-
-                  <p class="service-item-text">
-                    I make high-quality photos of any category at a professional
-                    level.
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          <!--
-          - testimonials
-        -->
-
-          <!-- <section class="testimonials">
-            <h3 class="h3 testimonials-title">Testimonials</h3>
-
-            <ul class="testimonials-list has-scrollbar">
-              <li class="testimonials-item">
-                <div class="content-card" data-testimonials-item>
-                  <figure class="testimonials-avatar-box">
-                    <img
-                      src="./assets/images/avatar-1.png"
-                      alt="Daniel lewis"
-                      width="60"
-                      data-testimonials-avatar
-                    />
-                  </figure>
-
-                  <h4
-                    class="h4 testimonials-item-title"
-                    data-testimonials-title
-                  >
-                    Daniel lewis
-                  </h4>
-
-                  <div class="testimonials-text" data-testimonials-text>
-                    <p>
-                      Richard was hired to create a corporate identity. We were
-                      very pleased with the work done. She has a lot of
-                      experience and is very concerned about the needs of
-                      client. Lorem ipsum dolor sit amet, ullamcous cididt
-                      consectetur adipiscing elit, seds do et eiusmod tempor
-                      incididunt ut laborels dolore magnarels alia.
+                    <p class="text-lg sm:text-xl text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed font-normal max-w-2xl">
+                        I build scalable backend services, event-driven pipelines, and intuitive web applications. Focused on architectural simplicity, query optimization, and resilient user experiences.
                     </p>
-                  </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#projects" class="px-6 py-3.5 rounded-xl bg-coffee-espresso dark:bg-coffee-caramel text-coffee-foam dark:text-coffee-espresso font-bold text-sm flex items-center space-x-2 hover:bg-coffee-caramel dark:hover:bg-coffee-foam transition-colors shadow-lg">
+                            <span>Explore Selected Works</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+
+                        <button onclick="copyEmail()" class="px-6 py-3.5 rounded-xl border-2 border-coffee-espresso dark:border-coffee-darkBorder bg-coffee-cream/40 dark:bg-coffee-darkCard hover:border-coffee-caramel font-bold text-sm flex items-center space-x-2 transition-all">
+                            <i class="fa-solid fa-copy text-coffee-caramel"></i>
+                            <span id="email-btn-text">Copy Email</span>
+                        </button>
+
+                        <a href="https://www.credly.com/users/naufal-rizqi-arrafi/badges" target="_blank" rel="noopener noreferrer" class="px-4 py-3.5 rounded-xl border border-coffee-border dark:border-coffee-darkBorder hover:border-coffee-caramel text-xs font-mono font-semibold flex items-center space-x-2">
+                            <i class="fa-solid fa-award text-coffee-caramel"></i>
+                            <span>Credly Profile ↗</span>
+                        </a>
+                    </div>
                 </div>
-              </li>
 
-              <li class="testimonials-item">
-                <div class="content-card" data-testimonials-item>
-                  <figure class="testimonials-avatar-box">
-                    <img
-                      src="./assets/images/avatar-2.png"
-                      alt="Jessica miller"
-                      width="60"
-                      data-testimonials-avatar
-                    />
-                  </figure>
+                <!-- Hero Interactive Coffee Widget (Gen Z Playful Element) -->
+                <div class="lg:col-span-4">
+                    <div class="bg-coffee-cream/70 dark:bg-coffee-darkCard border-2 border-coffee-espresso dark:border-coffee-darkBorder rounded-2xl p-6 tactile-card text-center relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 w-20 h-20 bg-coffee-caramel/10 rounded-full blur-xl pointer-events-none"></div>
+                        
+                        <div class="mb-4 inline-block p-4 rounded-2xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder">
+                            <i id="coffee-icon" class="fa-solid fa-mug-hot text-5xl text-coffee-caramel transition-transform duration-300 transform hover:scale-110 cursor-pointer" onclick="brewCoffee()"></i>
+                        </div>
 
-                  <h4
-                    class="h4 testimonials-item-title"
-                    data-testimonials-title
-                  >
-                    Jessica miller
-                  </h4>
+                        <h2 class="font-bold text-base mb-1">Fueling the Code Engine</h2>
+                        <p class="text-xs text-coffee-espresso/70 dark:text-coffee-darkText/70 font-mono mb-4">Click mug to brew another espresso cup!</p>
 
-                  <div class="testimonials-text" data-testimonials-text>
-                    <p>
-                      Richard was hired to create a corporate identity. We were
-                      very pleased with the work done. She has a lot of
-                      experience and is very concerned about the needs of
-                      client. Lorem ipsum dolor sit amet, ullamcous cididt
-                      consectetur adipiscing elit, seds do et eiusmod tempor
-                      incididunt ut laborels dolore magnarels alia.
-                    </p>
-                  </div>
+                        <div class="bg-coffee-foam dark:bg-coffee-darkBg p-3 rounded-xl border border-coffee-border dark:border-coffee-darkBorder text-left space-y-2">
+                            <div class="flex justify-between text-xs font-mono">
+                                <span>Espresso Shots:</span>
+                                <span id="cup-count" class="font-bold text-coffee-caramel">4 Cups Today</span>
+                            </div>
+                            <div class="flex justify-between text-xs font-mono">
+                                <span>Code Status:</span>
+                                <span class="text-coffee-sage font-semibold">Ready to Deploy</span>
+                            </div>
+                            <div class="flex justify-between text-xs font-mono">
+                                <span>Timezone:</span>
+                                <span id="local-time" class="font-bold">13:45 WIB</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </li>
+            </div>
+        </section>
 
-              <li class="testimonials-item">
-                <div class="content-card" data-testimonials-item>
-                  <figure class="testimonials-avatar-box">
-                    <img
-                      src="./assets/images/avatar-3.png"
-                      alt="Emily evans"
-                      width="60"
-                      data-testimonials-avatar
-                    />
-                  </figure>
-
-                  <h4
-                    class="h4 testimonials-item-title"
-                    data-testimonials-title
-                  >
-                    Emily evans
-                  </h4>
-
-                  <div class="testimonials-text" data-testimonials-text>
-                    <p>
-                      Richard was hired to create a corporate identity. We were
-                      very pleased with the work done. She has a lot of
-                      experience and is very concerned about the needs of
-                      client. Lorem ipsum dolor sit amet, ullamcous cididt
-                      consectetur adipiscing elit, seds do et eiusmod tempor
-                      incididunt ut laborels dolore magnarels alia.
-                    </p>
-                  </div>
+        <!-- CERTIFICATIONS & CREDLY SECTION -->
+        <section id="certifications" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-coffee-border dark:border-coffee-darkBorder pb-4 gap-4">
+                <div>
+                    <span class="text-xs font-mono text-coffee-caramel uppercase tracking-widest font-bold">Verified Credentials</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Certifications & Accreditations</h2>
                 </div>
-              </li>
-
-              <li class="testimonials-item">
-                <div class="content-card" data-testimonials-item>
-                  <figure class="testimonials-avatar-box">
-                    <img
-                      src="./assets/images/avatar-4.png"
-                      alt="Henry william"
-                      width="60"
-                      data-testimonials-avatar
-                    />
-                  </figure>
-
-                  <h4
-                    class="h4 testimonials-item-title"
-                    data-testimonials-title
-                  >
-                    Henry william
-                  </h4>
-
-                  <div class="testimonials-text" data-testimonials-text>
-                    <p>
-                      Richard was hired to create a corporate identity. We were
-                      very pleased with the work done. She has a lot of
-                      experience and is very concerned about the needs of
-                      client. Lorem ipsum dolor sit amet, ullamcous cididt
-                      consectetur adipiscing elit, seds do et eiusmod tempor
-                      incididunt ut laborels dolore magnarels alia.
-                    </p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </section> -->
-
-          <!--
-          - testimonials modal
-        -->
-
-          <div class="modal-container" data-modal-container>
-            <div class="overlay" data-overlay></div>
-
-            <section class="testimonials-modal">
-              <button class="modal-close-btn" data-modal-close-btn>
-                <ion-icon name="close-outline"></ion-icon>
-              </button>
-
-              <div class="modal-img-wrapper">
-                <figure class="modal-avatar-box">
-                  <img
-                    src="./assets/images/avatar-1.png"
-                    alt="Daniel lewis"
-                    width="80"
-                    data-modal-img
-                  />
-                </figure>
-
-                <img src="./assets/images/icon-quote.svg" alt="quote icon" />
-              </div>
-
-              <div class="modal-content">
-                <h4 class="h3 modal-title" data-modal-title>Daniel lewis</h4>
-
-                <time datetime="2021-06-14">14 June, 2021</time>
-
-                <div data-modal-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were
-                    very pleased with the work done. She has a lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum
-                    dolor sit amet, ullamcous cididt consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels
-                    dolore magnarels alia.
-                  </p>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <!--
-          - clients
-        -->
-
-          <!-- <section class="clients">
-            <h3 class="h3 clients-title">Clients</h3>
-
-            <ul class="clients-list has-scrollbar">
-              <li class="clients-item">
-                <a href="#">
-                  <img
-                    src="./assets/images/logo-1-color.png"
-                    alt="client logo"
-                  />
+                <a href="https://www.credly.com/users/naufal-rizqi-arrafi/badges" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-coffee-caramel hover:underline flex items-center space-x-1">
+                    <span>View Official Credly Account</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img
-                    src="./assets/images/logo-2-color.png"
-                    alt="client logo"
-                  />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img
-                    src="./assets/images/logo-3-color.png"
-                    alt="client logo"
-                  />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img
-                    src="./assets/images/logo-4-color.png"
-                    alt="client logo"
-                  />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img
-                    src="./assets/images/logo-5-color.png"
-                    alt="client logo"
-                  />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img
-                    src="./assets/images/logo-6-color.png"
-                    alt="client logo"
-                  />
-                </a>
-              </li>
-            </ul>
-          </section> -->
-        </article>
-
-        <!--
-        - #RESUME
-      -->
-
-        <article class="resume" data-page="resume">
-          <header>
-            <h2 class="h2 article-title">Resume</h2>
-          </header>
-
-          <section class="timeline">
-            <div class="title-wrapper">
-              <div class="icon-box">
-                <ion-icon name="book-outline"></ion-icon>
-              </div>
-
-              <h3 class="h3">Education</h3>
             </div>
 
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">Universitas Muria Kudus</h4>
+            <p class="text-sm text-coffee-espresso/80 dark:text-coffee-darkText/80">
+                Directly verified badges via Credly & official providers. Click any badge to view proof or verify token.
+            </p>
 
-                <span>2018 — 2022</span>
+            <!-- Certification Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                
+                <!-- Cert Card 1 -->
+                <div class="bg-coffee-card dark:bg-coffee-darkCard border-2 border-coffee-espresso dark:border-coffee-darkBorder rounded-xl p-5 tactile-card flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-950/40 border border-orange-300 dark:border-orange-800 flex items-center justify-center text-orange-600 dark:text-orange-400 text-xl font-bold">
+                                <i class="fa-brands fa-aws"></i>
+                            </div>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-coffee-caramel font-semibold">Credly Verified</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base leading-snug">AWS Certified Cloud Practitioner</h3>
+                            <p class="text-xs text-coffee-espresso/70 dark:text-coffee-darkText/70 mt-1">Amazon Web Services (AWS)</p>
+                        </div>
+                        <p class="text-xs text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed">
+                            Validated foundational understanding of AWS Cloud concepts, security, architecture, and deployment models.
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-coffee-border dark:border-coffee-darkBorder flex items-center justify-between">
+                        <span class="text-[11px] font-mono text-coffee-espresso/60 dark:text-coffee-darkText/60">Issued: 2024</span>
+                        <button onclick="openCertModal('AWS Certified Cloud Practitioner', 'Amazon Web Services', '2024', 'Validates core cloud architecture, security compliance, IAM policies, and cloud cost management.', 'https://www.credly.com/users/naufal-rizqi-arrafi/badges')" class="text-xs font-semibold text-coffee-caramel hover:underline flex items-center space-x-1">
+                            <span>Verify Badge</span>
+                            <i class="fa-solid fa-angle-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
 
-                <p class="timeline-text">
-                  Mengambil jurusan Teknik Informatika. Mempelajari dasar dasar
-                  ilmu komputer, programming, manajemen proyek dan membuat
-                  beberapa aplikasi dari tugas dan skripsi
-                </p>
-              </li>
+                <!-- Cert Card 2 -->
+                <div class="bg-coffee-card dark:bg-coffee-darkCard border-2 border-coffee-espresso dark:border-coffee-darkBorder rounded-xl p-5 tactile-card flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-950/40 border border-red-300 dark:border-red-800 flex items-center justify-center text-red-600 dark:text-red-400 text-xl font-bold">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-coffee-caramel font-semibold">Certified</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base leading-snug">Laravel Certified Developer / Architect</h3>
+                            <p class="text-xs text-coffee-espresso/70 dark:text-coffee-darkText/70 mt-1">Laravel Ecosystem / High Performance</p>
+                        </div>
+                        <p class="text-xs text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed">
+                            Advanced proficiency in Eloquent ORM tuning, queues, Redis Caching, middleware pipelines, and API architecture.
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-coffee-border dark:border-coffee-darkBorder flex items-center justify-between">
+                        <span class="text-[11px] font-mono text-coffee-espresso/60 dark:text-coffee-darkText/60">Issued: 2023</span>
+                        <button onclick="openCertModal('Laravel Certified Engineer', 'Laravel Expert Certification', '2023', 'Expert level knowledge of PHP 8+, Laravel ecosystem, queues, Redis, and distributed caching.', 'https://www.credly.com/users/naufal-rizqi-arrafi/badges')" class="text-xs font-semibold text-coffee-caramel hover:underline flex items-center space-x-1">
+                            <span>Verify Badge</span>
+                            <i class="fa-solid fa-angle-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
 
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">SMA 1 Bae</h4>
+                <!-- Cert Card 3 -->
+                <div class="bg-coffee-card dark:bg-coffee-darkCard border-2 border-coffee-espresso dark:border-coffee-darkBorder rounded-xl p-5 tactile-card flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/40 border border-blue-300 dark:border-blue-800 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl font-bold">
+                                <i class="fa-solid fa-database"></i>
+                            </div>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-coffee-caramel font-semibold">Credly Verified</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base leading-snug">Database Management & Query Optimization</h3>
+                            <p class="text-xs text-coffee-espresso/70 dark:text-coffee-darkText/70 mt-1">PostgreSQL & MySQL Systems</p>
+                        </div>
+                        <p class="text-xs text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed">
+                            Mastery over indexing strategies, query execution plan analysis, transactions, and relational schema normalization.
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-coffee-border dark:border-coffee-darkBorder flex items-center justify-between">
+                        <span class="text-[11px] font-mono text-coffee-espresso/60 dark:text-coffee-darkText/60">Issued: 2023</span>
+                        <button onclick="openCertModal('Database Management & Query Optimization', 'Relational DB Engineering', '2023', 'Demonstrates query tuning, PostgreSQL index strategies, B-Tree vs Hash indexes, and lock management.', 'https://www.credly.com/users/naufal-rizqi-arrafi/badges')" class="text-xs font-semibold text-coffee-caramel hover:underline flex items-center space-x-1">
+                            <span>Verify Badge</span>
+                            <i class="fa-solid fa-angle-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
 
-                <span>2015-2018</span>
+            </div>
+        </section>
 
-                <p class="timeline-text">
-                  Mengikuti beberapa organisasi diantaranya: Pramuka, Pecinta
-                  Alam
-                </p>
-              </li>
-            </ol>
-          </section>
+        <!-- SELECTED PROJECTS SECTION -->
+        <section id="projects" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-coffee-border dark:border-coffee-darkBorder pb-4 gap-4">
+                <div>
+                    <span class="text-xs font-mono text-coffee-caramel uppercase tracking-widest font-bold">Proof Over Hype</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Selected Engineering Projects</h2>
+                </div>
 
-          <section class="timeline">
-            <div class="title-wrapper">
-              <div class="icon-box">
-                <ion-icon name="book-outline"></ion-icon>
-              </div>
-
-              <h3 class="h3">Experience</h3>
+                <!-- Filter Category Buttons -->
+                <div class="flex flex-wrap gap-2" id="project-filters">
+                    <button onclick="filterProjects('all')" class="project-filter-btn px-3 py-1 rounded-lg border border-coffee-espresso dark:border-coffee-darkBorder text-xs font-mono font-semibold bg-coffee-espresso text-white dark:bg-coffee-caramel dark:text-coffee-espresso">All</button>
+                    <button onclick="filterProjects('backend')" class="project-filter-btn px-3 py-1 rounded-lg border border-coffee-border dark:border-coffee-darkBorder text-xs font-mono font-semibold bg-coffee-cream/50 dark:bg-coffee-darkCard hover:border-coffee-caramel">Backend/API</button>
+                    <button onclick="filterProjects('fullstack')" class="project-filter-btn px-3 py-1 rounded-lg border border-coffee-border dark:border-coffee-darkBorder text-xs font-mono font-semibold bg-coffee-cream/50 dark:bg-coffee-darkCard hover:border-coffee-caramel">Full-Stack</button>
+                </div>
             </div>
 
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  PT. PURA BARUTAMA
-                </h4>
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                <span>2023 - Sekarang</span>
+                <!-- Project 1 -->
+                <div class="project-item backend bg-coffee-card dark:bg-coffee-darkCard border-2 border-coffee-espresso dark:border-coffee-darkBorder rounded-2xl p-6 tactile-card space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-coffee-caramel/10 text-coffee-caramel font-bold">Backend Architecture</span>
+                            <span class="text-xs font-mono text-coffee-sage font-semibold">p99 Latency: 42ms</span>
+                        </div>
+                        <h3 class="text-xl font-bold">High-Throughput Analytics Event Buffer</h3>
+                        <p class="text-sm text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed">
+                            Engineered an asynchronous event ingest pipeline using Laravel Redis queues and PostgreSQL batch inserts, resolving database contention during peak traffic spikes.
+                        </p>
 
-                <p class="timeline-text">
-                  Bekerja sebagai Staff IT bertugas dalam membuat dan
-                  memelihara aplikasi perusahaan baik internal maupun eksternal.
-                </p>
-              </li>
+                        <!-- Tech Specs Badge -->
+                        <div class="bg-coffee-foam dark:bg-coffee-darkBg p-3 rounded-xl border border-coffee-border dark:border-coffee-darkBorder space-y-1 font-mono text-xs">
+                            <div class="flex justify-between text-coffee-espresso/70 dark:text-coffee-darkText/70">
+                                <span>Throughput:</span>
+                                <span class="font-bold text-coffee-caramel">10,000 req/min</span>
+                            </div>
+                            <div class="flex justify-between text-coffee-espresso/70 dark:text-coffee-darkText/70">
+                                <span>Queue Worker:</span>
+                                <span class="font-bold">Redis LPUSH / Horizon</span>
+                            </div>
+                        </div>
 
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  PT. Rect Media Komputindo
-                </h4>
+                        <!-- Tech Tags -->
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">Laravel 11</span>
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">Redis</span>
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">PostgreSQL</span>
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">Docker</span>
+                        </div>
+                    </div>
 
-                <span>2022 - 2023</span>
-
-                <p class="timeline-text">
-                  Bekerja sebagai Back-End Developer bertugas dalam membuat dan
-                  memelihara aplikasi dengan bahasa pemrograman Flutter (dart),
-                  Laravel (PHP)
-                </p>
-              </li>
-            </ol>
-          </section>
-
-          <!-- <section class="skill">
-            <h3 class="h3 skills-title">My skills</h3>
-
-            <ul class="skills-list content-card">
-              <li class="skills-item">
-                <div class="title-wrapper">
-                  <h5 class="h5">Web design</h5>
-                  <data value="80">80%</data>
+                    <div class="pt-4 border-t border-coffee-border dark:border-coffee-darkBorder flex items-center justify-between">
+                        <button onclick="showToast('Architecture Repo is private. Request access via Email!')" class="text-xs font-bold text-coffee-caramel hover:underline flex items-center space-x-1">
+                            <i class="fa-brands fa-github text-sm"></i>
+                            <span>View Source Spec</span>
+                        </button>
+                        <span class="text-xs font-mono text-coffee-espresso/50 dark:text-coffee-darkText/50">Production Grade</span>
+                    </div>
                 </div>
 
-                <div class="skill-progress-bg">
-                  <div class="skill-progress-fill" style="width: 80%"></div>
-                </div>
-              </li>
+                <!-- Project 2 -->
+                <div class="project-item fullstack bg-coffee-card dark:bg-coffee-darkCard border-2 border-coffee-espresso dark:border-coffee-darkBorder rounded-2xl p-6 tactile-card space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-coffee-caramel/10 text-coffee-caramel font-bold">Full-Stack Application</span>
+                            <span class="text-xs font-mono text-coffee-sage font-semibold">Zero-Latency UX</span>
+                        </div>
+                        <h3 class="text-xl font-bold">Inertia Enterprise Admin & ERP Suite</h3>
+                        <p class="text-sm text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed">
+                            Built a modern single-page administrative platform combining Vue 3 and Laravel via Inertia.js, eliminating client API boilerplate while maintaining instant page loads.
+                        </p>
 
-              <li class="skills-item">
-                <div class="title-wrapper">
-                  <h5 class="h5">Graphic design</h5>
-                  <data value="70">70%</data>
-                </div>
+                        <!-- Tech Specs Badge -->
+                        <div class="bg-coffee-foam dark:bg-coffee-darkBg p-3 rounded-xl border border-coffee-border dark:border-coffee-darkBorder space-y-1 font-mono text-xs">
+                            <div class="flex justify-between text-coffee-espresso/70 dark:text-coffee-darkText/70">
+                                <span>Architecture:</span>
+                                <span class="font-bold text-coffee-caramel">Inertia Monolith</span>
+                            </div>
+                            <div class="flex justify-between text-coffee-espresso/70 dark:text-coffee-darkText/70">
+                                <span>State Handling:</span>
+                                <span class="font-bold">Pinia & Server Props</span>
+                            </div>
+                        </div>
 
-                <div class="skill-progress-bg">
-                  <div class="skill-progress-fill" style="width: 70%"></div>
-                </div>
-              </li>
+                        <!-- Tech Tags -->
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">Vue 3</span>
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">Inertia.js</span>
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">Tailwind CSS</span>
+                            <span class="px-2.5 py-0.5 rounded-md bg-coffee-cream/60 dark:bg-coffee-darkBg text-[11px] font-mono font-medium">MySQL</span>
+                        </div>
+                    </div>
 
-              <li class="skills-item">
-                <div class="title-wrapper">
-                  <h5 class="h5">Branding</h5>
-                  <data value="90">90%</data>
-                </div>
-
-                <div class="skill-progress-bg">
-                  <div class="skill-progress-fill" style="width: 90%"></div>
-                </div>
-              </li>
-
-              <li class="skills-item">
-                <div class="title-wrapper">
-                  <h5 class="h5">WordPress</h5>
-                  <data value="50">50%</data>
-                </div>
-
-                <div class="skill-progress-bg">
-                  <div class="skill-progress-fill" style="width: 50%"></div>
-                </div>
-              </li>
-            </ul>
-          </section> -->
-          <!--
-          - clients
-        -->
-
-          <section class="clients">
-            <h3 class="h3 clients-title">Software</h3>
-
-            <ul class="clients-list has-scrollbar">
-              <li class="clients-item">
-                <a href="#">
-                  <img src="./assets/images/corel.png" alt="client logo" />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img src="./assets/images/ps.png" alt="client logo" />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img src="./assets/images/msoffice.png" alt="client logo" />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img src="./assets/images/canva.png" alt="client logo" />
-                </a>
-              </li>
-
-              <li class="clients-item">
-                <a href="#">
-                  <img src="./assets/images/filmora.png" alt="client logo" />
-                </a>
-              </li>
-            </ul>
-          </section>
-        </article>
-
-        <!--
-        - #PORTFOLIO
-      -->
-
-        <article class="portfolio" data-page="portfolio">
-          <header>
-            <h2 class="h2 article-title">Portfolio</h2>
-          </header>
-
-          <section class="projects">
-            <!-- <div class="warning-content" >
-              <h1>Portfolio Sedang Saya Susun</h1>
-              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 width="100.001px" height="70px" viewBox="0 0 100 68">
-              <g id="large">
-                <g>
-                <path d="M55.777,38.473l6.221-1.133c0.017-1.791-0.123-3.573-0.41-5.324l-6.321-0.19c-0.438-2.053-1.135-4.048-2.076-5.931
-                  l4.82-4.094c-0.868-1.552-1.874-3.028-3.005-4.417l-5.569,2.999c-1.385-1.54-2.98-2.921-4.771-4.099l2.124-5.954
-                  c-0.759-0.452-1.543-0.878-2.357-1.269c-0.811-0.39-1.625-0.732-2.449-1.046l-3.325,5.381c-2.038-0.665-4.113-1.052-6.183-1.174
-                  L31.34,6.002c-1.792-0.02-3.571,0.119-5.32,0.406l-0.191,6.32c-2.056,0.439-4.051,1.137-5.936,2.08l-4.097-4.82
-                  c-1.546,0.872-3.022,1.875-4.407,3.006l2.996,5.566c-1.54,1.384-2.925,2.985-4.104,4.778c-2.16-0.771-4.196-1.498-5.953-2.127
-                  c-0.449,0.765-0.875,1.544-1.265,2.354c-0.39,0.811-0.733,1.63-1.049,2.457c1.587,0.981,3.424,2.119,5.377,3.325
-                  c-0.662,2.037-1.049,4.117-1.172,6.186l-6.218,1.136c-0.021,1.789,0.12,3.566,0.407,5.321l6.32,0.188
-                  c0.442,2.06,1.143,4.057,2.082,5.937l-4.818,4.095c0.872,1.549,1.873,3.026,3.009,4.412l5.563-2.998
-                  c1.392,1.54,2.989,2.92,4.777,4.099l-2.121,5.954c0.756,0.446,1.538,0.871,2.348,1.258c0.813,0.394,1.633,0.739,2.462,1.05
-                  l3.326-5.375c2.033,0.662,4.109,1.05,6.175,1.17l1.137,6.221c1.791,0.019,3.569-0.123,5.323-0.407l0.194-6.324
-                  c2.053-0.438,4.045-1.136,5.927-2.079l4.093,4.817c1.55-0.865,3.026-1.87,4.414-2.999l-2.995-5.572
-                  c1.537-1.385,2.914-2.98,4.093-4.772l5.953,2.127c0.448-0.761,0.878-1.545,1.268-2.356c0.388-0.808,0.729-1.631,1.047-2.458
-                  l-5.378-3.324C55.268,42.615,55.655,40.542,55.777,38.473z M42.302,42.435c-3.002,6.243-10.495,8.872-16.737,5.866
-                  c-6.244-2.999-8.872-10.493-5.867-16.736c3.002-6.244,10.495-8.873,16.736-5.869C42.676,28.698,45.306,36.19,42.302,42.435z"  fill="none" stroke="#E43"/>    <animateTransform 
-                          attributeName="transform"
-                          begin="0s"
-                          dur="3s"
-                          type="rotate"
-                          from="0 31 37"
-                          to="360 31 37"
-                          repeatCount="indefinite" 
-                  </animateTransform>
-              </g>
-              <g id="small">
-                <path d="M93.068,19.253L99,16.31c-0.371-1.651-0.934-3.257-1.679-4.776l-6.472,1.404c-0.902-1.436-2.051-2.735-3.42-3.819
-                  l2.115-6.273c-0.706-0.448-1.443-0.867-2.213-1.238c-0.774-0.371-1.559-0.685-2.351-0.958l-3.584,5.567
-                  c-1.701-0.39-3.432-0.479-5.118-0.284L73.335,0c-1.652,0.367-3.256,0.931-4.776,1.672l1.404,6.47
-                  c-1.439,0.899-2.744,2.047-3.835,3.419c-2.208-0.746-4.38-1.476-6.273-2.114c-0.451,0.71-0.874,1.448-1.244,2.229
-                  c-0.371,0.764-0.68,1.541-0.954,2.329c1.681,1.078,3.612,2.323,5.569,3.579c-0.399,1.711-0.486,3.449-0.291,5.145
-                  c-2.086,1.034-4.143,2.055-5.936,2.945c0.368,1.648,0.929,3.25,1.67,4.769c1.954-0.426,4.193-0.912,6.468-1.405
-                  c0.906,1.449,2.06,2.758,3.442,3.853l-2.117,6.27c0.708,0.449,1.439,0.865,2.218,1.236c0.767,0.371,1.551,0.685,2.338,0.96
-                  c1.081-1.68,2.319-3.612,3.583-5.574c1.714,0.401,3.457,0.484,5.156,0.288L82.695,42c1.651-0.371,3.252-0.931,4.773-1.676
-                  c-0.425-1.952-0.912-4.194-1.404-6.473c1.439-0.902,2.744-2.057,3.835-3.436l6.273,2.11c0.444-0.7,0.856-1.43,1.225-2.197
-                  c0.372-0.777,0.691-1.569,0.963-2.361l-5.568-3.586C93.181,22.677,93.269,20.939,93.068,19.253z M84.365,24.062
-                  c-1.693,3.513-5.908,4.991-9.418,3.302c-3.513-1.689-4.99-5.906-3.301-9.419c1.688-3.513,5.906-4.991,9.417-3.302
-                  C84.573,16.331,86.05,20.549,84.365,24.062z" fill="none" stroke="#E43"/>  
-                <animateTransform 
-                          attributeName="transform"
-                          begin="0s"
-                          dur="2s"
-                          type="rotate"
-                          from="0 78 21"
-                          to="-360 78 21"
-                          repeatCount="indefinite" 
-                  </animateTransform>
-              </g>
-              </svg>
-              <p>
-                Harap Bersabar <br />
-                Saya akan segera menyelesaikannya
-              </p>
-              </div> -->
-
-            <ul class="filter-list">
-              <li class="filter-item">
-                <button class="active" data-filter-btn>All</button>
-              </li>
-
-              <!-- <li class="filter-item">
-                <button data-filter-btn>Web design</button>
-              </li>
-
-              <li class="filter-item">
-                <button data-filter-btn>Applications</button>
-              </li> -->
-
-              <li class="filter-item">
-                <button data-filter-btn>Web development</button>
-              </li>
-            </ul>
-
-            <div class="filter-select-box" style="display: none">
-              <button class="filter-select" data-select>
-                <div class="select-value" data-selecct-value>
-                  Select category
+                    <div class="pt-4 border-t border-coffee-border dark:border-coffee-darkBorder flex items-center justify-between">
+                        <button onclick="showToast('Live Demo Available under NDA environment.')" class="text-xs font-bold text-coffee-caramel hover:underline flex items-center space-x-1">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                            <span>Inspect Demo Portal</span>
+                        </button>
+                        <span class="text-xs font-mono text-coffee-espresso/50 dark:text-coffee-darkText/50">Client System</span>
+                    </div>
                 </div>
 
-                <div class="select-icon">
-                  <ion-icon name="chevron-down"></ion-icon>
-                </div>
-              </button>
+            </div>
+        </section>
 
-              <ul class="select-list">
-                <li class="select-item">
-                  <button data-select-item>All</button>
-                </li>
-
-                <!-- <li class="select-item">
-                  <button data-select-item>Web design</button>
-                </li>
-
-                <li class="select-item">
-                  <button data-select-item>Applications</button>
-                </li> -->
-
-                <li class="select-item">
-                  <button data-select-item>Web development</button>
-                </li>
-              </ul>
+        <!-- ABOUT & SKILL MATRIX SECTION -->
+        <section id="skills" class="space-y-6">
+            <div class="border-b border-coffee-border dark:border-coffee-darkBorder pb-4">
+                <span class="text-xs font-mono text-coffee-caramel uppercase tracking-widest font-bold">Tech Radar & Stack</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Core Competencies</h2>
             </div>
 
-            <ul class="project-list">
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a target="_blank" href="https://laundry.ayorawuh.my.id">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/laundry.png"
-                      alt="finance"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Laundry POS</h3>
-                  <p class="project-category">Web development</p>
-                </a>
-              </li>
-
-              <!-- <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-2.png"
-                      alt="orizon"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Orizon</h3>
-
-                  <p class="project-category">Web development</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web design"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-3.jpg"
-                      alt="fundo"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Fundo</h3>
-
-                  <p class="project-category">Web design</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-4.png"
-                      alt="brawlhalla"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Brawlhalla</h3>
-
-                  <p class="project-category">Applications</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web design"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-5.png"
-                      alt="dsm."
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">DSM.</h3>
-
-                  <p class="project-category">Web design</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web design"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-6.png"
-                      alt="metaspark"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">MetaSpark</h3>
-
-                  <p class="project-category">Web design</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-7.png"
-                      alt="summary"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Summary</h3>
-
-                  <p class="project-category">Web development</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-8.jpg"
-                      alt="task manager"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Task Manager</h3>
-
-                  <p class="project-category">Applications</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a href="#">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/project-9.png"
-                      alt="arrival"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Arrival</h3>
-
-                  <p class="project-category">Web development</p>
-                </a>
-              </li> -->
-            </ul>
-          </section>
-        </article>
-
-        <!--
-        - #BLOG
-      -->
-
-        <article class="blog" data-page="blog">
-          <header>
-            <h2 class="h2 article-title">Blog</h2>
-          </header>
-
-          <section class="blog-posts">
-            <ul class="blog-posts-list">
-              <li class="blog-post-item">
-                <a href="#">
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog-1.jpg"
-                      alt="Design conferences in 2022"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Design</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Fab 23, 2022</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">
-                      Design conferences in 2022
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Human Summary Column -->
+                <div class="lg:col-span-5 bg-coffee-cream/40 dark:bg-coffee-darkCard border border-coffee-border dark:border-coffee-darkBorder p-6 rounded-2xl space-y-4">
+                    <h3 class="font-bold text-lg flex items-center space-x-2">
+                        <i class="fa-solid fa-user-gear text-coffee-caramel"></i>
+                        <span>Engineering Philosophy</span>
                     </h3>
-
-                    <p class="blog-text">
-                      Veritatis et quasi architecto beatae vitae dicta sunt,
-                      explicabo.
+                    <p class="text-sm text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed">
+                        Saya percaya bahwa software terbaik bukan yang paling kompleks, melainkan yang paling jelas dan mudah dipelihara. Saya berfokus pada struktur basis data yang bersih, optimasi query, serta API yang terprediksi.
                     </p>
-                  </div>
-                </a>
-              </li>
+                    <div class="pt-2">
+                        <span class="text-xs font-mono font-semibold text-coffee-caramel block mb-2">CURRENTLY EXPANDING:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder">Go (Golang) Concurrency</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder">Kubernetes Deployment</span>
+                        </div>
+                    </div>
+                </div>
 
-              <li class="blog-post-item">
-                <a href="#">
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog-2.jpg"
-                      alt="Best fonts every designer"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Design</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Fab 23, 2022</time>
+                <!-- Skill Matrix Interactive Grid -->
+                <div class="lg:col-span-7 space-y-4">
+                    <!-- Backend & Systems -->
+                    <div class="bg-coffee-card dark:bg-coffee-darkCard border border-coffee-border dark:border-coffee-darkBorder p-5 rounded-2xl space-y-3">
+                        <h4 class="text-xs font-mono uppercase text-coffee-caramel font-bold tracking-wider">Backend & System Architecture</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">PHP 8+ / Laravel Ecosystem</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">RESTful API & OpenApi Specs</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">PostgreSQL & MySQL Tuning</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">Redis Queue & Caching</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">Docker Containerization</span>
+                        </div>
                     </div>
 
-                    <h3 class="h3 blog-item-title">
-                      Best fonts every designer
-                    </h3>
-
-                    <p class="blog-text">
-                      Sed ut perspiciatis, nam libero tempore, cum soluta nobis
-                      est eligendi.
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a href="#">
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog-3.jpg"
-                      alt="Design digest #80"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Design</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Fab 23, 2022</time>
+                    <!-- Frontend & Interface -->
+                    <div class="bg-coffee-card dark:bg-coffee-darkCard border border-coffee-border dark:border-coffee-darkBorder p-5 rounded-2xl space-y-3">
+                        <h4 class="text-xs font-mono uppercase text-coffee-caramel font-bold tracking-wider">Frontend & Client Interactions</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">Vue.js / Inertia.js</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">Tailwind CSS & Utility-First UI</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">JavaScript ES6+ / TypeScript Basics</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">Responsive UX & Tactile Motion</span>
+                        </div>
                     </div>
 
-                    <h3 class="h3 blog-item-title">Design digest #80</h3>
-
-                    <p class="blog-text">
-                      Excepteur sint occaecat cupidatat no proident, quis
-                      nostrum exercitationem ullam corporis suscipit.
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a href="#">
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog-4.jpg"
-                      alt="UI interactions of the week"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Design</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Fab 23, 2022</time>
+                    <!-- Cloud & Tools -->
+                    <div class="bg-coffee-card dark:bg-coffee-darkCard border border-coffee-border dark:border-coffee-darkBorder p-5 rounded-2xl space-y-3">
+                        <h4 class="text-xs font-mono uppercase text-coffee-caramel font-bold tracking-wider">Cloud Infrastructure & Tools</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">AWS (EC2, S3, RDS, IAM)</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">Git Workflow & GitHub Actions</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-coffee-foam dark:bg-coffee-darkBg border border-coffee-border dark:border-coffee-darkBorder text-xs font-semibold hover:border-coffee-caramel transition-colors">Linux Nginx Administration</span>
+                        </div>
                     </div>
 
-                    <h3 class="h3 blog-item-title">
-                      UI interactions of the week
-                    </h3>
+                </div>
+            </div>
+        </section>
 
-                    <p class="blog-text">
-                      Enim ad minim veniam, consectetur adipiscing elit, quis
-                      nostrud exercitation ullamco laboris nisi.
-                    </p>
-                  </div>
-                </a>
-              </li>
+        <!-- CONTACT & FOOTER SECTION -->
+        <section id="contact" class="pt-8">
+            <div class="bg-coffee-espresso text-coffee-foam dark:bg-coffee-darkCard dark:text-coffee-darkText rounded-3xl p-8 sm:p-12 border-2 border-coffee-espresso dark:border-coffee-darkBorder relative overflow-hidden tactile-card">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 space-y-4">
+                        <div class="inline-flex items-center space-x-2 text-coffee-caramel font-mono text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Let's Build Something Together</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Have a project or technical role in mind?</h2>
+                        <p class="text-coffee-foam/80 dark:text-coffee-darkText/80 text-sm sm:text-base max-w-xl">
+                            Open for remote engineering positions, full-stack consulting, and backend architecture reviews. Drop a message!
+                        </p>
 
-              <li class="blog-post-item">
-                <a href="#">
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog-5.jpg"
-                      alt="The forgotten art of spacing"
-                      loading="lazy"
-                    />
-                  </figure>
+                        <div class="pt-4 flex flex-wrap gap-4">
+                            <button onclick="copyEmail()" class="px-6 py-3.5 rounded-xl bg-coffee-caramel text-white font-bold text-sm flex items-center space-x-2 hover:bg-coffee-rust transition-colors shadow-lg">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span id="footer-email-btn">naufalrizqiarrafi@gmail.com</span>
+                            </button>
 
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Design</p>
+                            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-xl border border-coffee-foam/20 dark:border-coffee-darkBorder hover:border-coffee-caramel font-bold text-sm flex items-center space-x-2 transition-colors">
+                                <i class="fa-brands fa-linkedin text-lg text-coffee-caramel"></i>
+                                <span>LinkedIn</span>
+                            </a>
 
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Fab 23, 2022</time>
+                            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-xl border border-coffee-foam/20 dark:border-coffee-darkBorder hover:border-coffee-caramel font-bold text-sm flex items-center space-x-2 transition-colors">
+                                <i class="fa-brands fa-github text-lg text-coffee-caramel"></i>
+                                <span>GitHub</span>
+                            </a>
+                        </div>
                     </div>
 
-                    <h3 class="h3 blog-item-title">
-                      The forgotten art of spacing
-                    </h3>
-
-                    <p class="blog-text">
-                      Maxime placeat, sed do eiusmod tempor incididunt ut labore
-                      et dolore magna aliqua.
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a href="#">
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog-6.jpg"
-                      alt="Design digest #79"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Design</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Fab 23, 2022</time>
+                    <div class="lg:col-span-4 border-t lg:border-t-0 lg:border-l border-coffee-foam/10 dark:border-coffee-darkBorder pt-6 lg:pt-0 lg:pl-8 space-y-3 font-mono text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-coffee-foam/60 dark:text-coffee-darkText/60">Location:</span>
+                            <span>Kudus, Central Java</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-coffee-foam/60 dark:text-coffee-darkText/60">Timezone:</span>
+                            <span>Asia/Jakarta (UTC+7)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-coffee-foam/60 dark:text-coffee-darkText/60">Response Rate:</span>
+                            <span class="text-coffee-sage">Within 24 Hours</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-coffee-foam/60 dark:text-coffee-darkText/60">Coffee Level:</span>
+                            <span>Double Espresso</span>
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                    <h3 class="h3 blog-item-title">Design digest #79</h3>
+            <!-- Copyright Line -->
+            <div class="mt-8 text-center text-xs font-mono text-coffee-espresso/60 dark:text-coffee-darkText/60 pb-8">
+                © <span id="year">2026</span> Naufal Rizqi Arrafi — Designed with Warm Coffee Aesthetics. Zero AI Slop.
+            </div>
+        </section>
 
-                    <p class="blog-text">
-                      Optio cumque nihil impedit uo minus quod maxime placeat,
-                      velit esse cillum.
-                    </p>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </article>
-
-        <!--
-        - #CONTACT
-      -->
-
-        <article class="contact" data-page="contact">
-          <header>
-            <h2 class="h2 article-title">Contact</h2>
-          </header>
-
-          <section class="mapbox" data-mapbox>
-            <figure>
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139.495392218917!2d110.84256606487709!3d-6.803433680317919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70c4c4e858ed25%3A0xfc078df815a94e15!2sAlun-Alun%20Kudus%2C%20Kec.%20Kota%20Kudus%2C%20Kabupaten%20Kudus%2C%20Jawa%20Tengah!5e0!3m2!1sen!2sid!4v1673259156819!5m2!1sen!2sid"
-                width="600"
-                height="450"
-                style="border: 0"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                width="400"
-                height="300"
-                loading="lazy"
-              ></iframe>
-            </figure>
-          </section>
-
-          <section class="contact-form">
-            <h3 class="h3 form-title">Send Secret Message</h3>
-            <textarea
-              name="message"
-              class="form-input"
-              placeholder="Your Message"
-              required
-            ></textarea>
-
-            <button class="form-btn" name="send" type="submit">
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-          </section>
-        </article>
-      </div>
     </main>
 
-    <!--
-    - custom js link
-  -->
-    <script src="./assets/js/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--
-    - ionicon link
-  -->
-    <script
-      type="module"
-      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-    ></script>
+    <!-- CERTIFICATION MODAL -->
+    <div id="cert-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-coffee-foam dark:bg-coffee-darkCard border-2 border-coffee-espresso dark:border-coffee-darkBorder rounded-2xl max-w-lg w-full p-6 space-y-4 tactile-card relative">
+            <button onclick="closeCertModal()" class="absolute top-4 right-4 text-coffee-espresso/60 dark:text-coffee-darkText/60 hover:text-coffee-caramel text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-xl bg-coffee-caramel text-white flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-certificate"></i>
+                </div>
+                <div>
+                    <span id="modal-issuer" class="text-xs font-mono text-coffee-caramel font-bold">Issuer Name</span>
+                    <h3 id="modal-title" class="text-lg font-bold">Badge Title</h3>
+                </div>
+            </div>
+
+            <p id="modal-desc" class="text-xs sm:text-sm text-coffee-espresso/80 dark:text-coffee-darkText/80 leading-relaxed">
+                Certification details description goes here.
+            </p>
+
+            <div class="bg-coffee-cream/60 dark:bg-coffee-darkBg p-3 rounded-xl border border-coffee-border dark:border-coffee-darkBorder flex items-center justify-between font-mono text-xs">
+                <span>Verification Status:</span>
+                <span class="text-coffee-sage font-bold flex items-center space-x-1">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Authentic Credly Record</span>
+                </span>
+            </div>
+
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeCertModal()" class="px-4 py-2 rounded-xl border border-coffee-border dark:border-coffee-darkBorder text-xs font-bold">
+                    Close
+                </button>
+                <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-coffee-caramel text-white text-xs font-bold flex items-center space-x-1 hover:bg-coffee-rust">
+                    <span>Open Credly Badge</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-      document
-        .querySelector("[name=send]")
-        .addEventListener("click", function () {
-          var message = document.querySelector("[name=message]").value;
-          // console.log(message.length);
-          if (message.length >= 10) {
-            fetch(
-              `https://api.telegram.org/bot828733467:AAGa7_V9v7SLkwgH9XT-J1VGA2oswq_6q4I/sendMessage?chat_id=660331071&text=${message}`
-            )
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error(response.statusText);
-                }
-                Swal.fire(
-                  "Terimkasih",
-                  "Pesan kamu akan segera saya baca",
-                  "success"
-                );
-              })
-              .catch((error) => {
-                Swal.showValidationMessage(`Request failed: ${error}`);
-              });
-          } else {
-            Swal.fire("Woy!", "minimal 10 karakter", "warning");
-          }
+        // 1. Dark Mode Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        // Check local storage or system preference
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+                showToast('Switched to Foam Light Mode ☕');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                showToast('Switched to Espresso Night Mode 🌙');
+            }
         });
+
+        // 2. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 3. Toast System
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // 4. Copy Email Function
+        function copyEmail() {
+            const email = "naufalrizqiarrafi@gmail.com";
+            
+            // Clipboard fallback for compatibility
+            const tempInput = document.createElement("input");
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast('Email copied to clipboard! 📋');
+
+            const btnText = document.getElementById('email-btn-text');
+            if(btnText) {
+                btnText.textContent = "Copied!";
+                setTimeout(() => { btnText.textContent = "Copy Email"; }, 2000);
+            }
+        }
+
+        // 5. Interactive Coffee Brewer (Easter Egg)
+        let cups = 4;
+        function brewCoffee() {
+            cups++;
+            document.getElementById('cup-count').textContent = cups + " Cups Today";
+            const mug = document.getElementById('coffee-icon');
+            mug.classList.add('rotate-12', 'scale-125');
+            setTimeout(() => {
+                mug.classList.remove('rotate-12', 'scale-125');
+            }, 200);
+            showToast(`Fresh espresso brewed! (${cups} cups total today) ☕`);
+        }
+
+        // 6. Live Local Time Clock (Asia/Jakarta)
+        function updateClock() {
+            const options = {
+                timeZone: 'Asia/Jakarta',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const formatter = new Intl.DateTimeFormat([], options);
+            const timeString = formatter.format(new Date()) + " WIB";
+            const timeEl = document.getElementById('local-time');
+            if (timeEl) timeEl.textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 7. Project Filtering Logic
+        function filterProjects(category) {
+            const items = document.querySelectorAll('.project-item');
+            const filterBtns = document.querySelectorAll('.project-filter-btn');
+
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-coffee-espresso', 'text-white', 'dark:bg-coffee-caramel', 'dark:text-coffee-espresso');
+                btn.classList.add('bg-coffee-cream/50', 'dark:bg-coffee-darkCard');
+            });
+
+            event.target.classList.add('bg-coffee-espresso', 'text-white', 'dark:bg-coffee-caramel', 'dark:text-coffee-espresso');
+
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // 8. Certification Modal Logic
+        function openCertModal(title, issuer, year, desc, link) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-issuer').textContent = issuer + " • " + year;
+            document.getElementById('modal-desc').textContent = desc;
+            document.getElementById('modal-link').href = link;
+            document.getElementById('cert-modal').classList.remove('hidden');
+        }
+
+        function closeCertModal() {
+            document.getElementById('cert-modal').classList.add('hidden');
+        }
     </script>
-  </body>
+</body>
 </html>
